@@ -3,13 +3,11 @@ package app
 import cats.effect._
 import cats.implicits._
 import fs2.Stream
-import org.http4s.MediaType
 import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.client.middleware.{RequestLogger, ResponseLogger}
 import org.http4s.dsl.io._
 import org.http4s.ember.client.EmberClientBuilder
-import org.http4s.headers.Accept
 import org.http4s.implicits._
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
@@ -34,7 +32,7 @@ object Main extends IOApp.Simple with Http4sClientDsl[IO] {
     val frequency = 5.seconds
     val io        =
       client
-        .expect[String](GET(uri"http://173.212.192.245/http4s-4935/small.txt", Accept(MediaType.application.json)))
+        .expect[String](GET(uri"http://173.212.192.245/http4s-4935/small.txt"))
         .attemptTap {
           case Left(error) => logger.error(error)(s"Request failed")
           case _           => IO.unit
